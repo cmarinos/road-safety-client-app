@@ -1,0 +1,114 @@
+<div class="col-xs-12 item-page">
+
+    <div class="row item-title">
+        <div class="col-xs-12">
+            <h4>{{item.reference.title}}</h4>
+        </div>
+        <div class="col-xs-9">
+            <p class="metadata">{{item.reference.authors}}</p>
+        </div>
+        <div class="col-xs-3 references-intro-label">
+            Introductory Video: <a href="https://www.youtube.com/watch?v=UvzAP5zl670" target="_blank" class="play-icon"><i class="fa fa-youtube-play"></i></a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <h5>Abstract</h5>
+            <p>{{item.reference.abstract}}</p>
+            <p><a href="{{item.reference.url}}" target="_blank">{{item.reference.url}}</a> </p>
+        </div>
+    </div>
+
+    <div class="row" ng-if="item.reference.summary">
+        <div class="col-xs-12">
+            <h5>Summary</h5>
+            <p>{{item.reference.summary}}</p>
+        </div>
+    </div>
+
+    <div class="row" ng-if="item.limitations.length > 0">
+        <div class="col-xs-12">
+            <h5>Limitations</h5>
+            <table class="table table-active">
+                <thead>
+                <tr>
+                    <th>Extent</th>
+                    <th>Motivation </th>
+                    <th>Type</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="limit in item.limitations">
+                    <td>{{limit.extent}}</td>
+                    <td>{{limit.motivation}}</td>
+                    <td>{{limit.type}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <h5>Basic Study Information</h5>
+            <p>
+                <span class="col-xs-6"><strong>Topic</strong>: {{item.reference.main_topic}}</span>
+                <span class="col-xs-6"><strong>Year</strong>: {{item.reference.year}}</span>
+            </p>
+            <p class="col-xs-12">
+                <strong>Source</strong>: {{item.reference.source}}
+            </p>
+            <p ng-if="item.details.design" class="col-xs-12">
+                <strong>Design</strong>: <span ng-repeat="d in item.details.design">{{d}} </span>
+            </p>
+            <p ng-if="item.details.countries" class="col-xs-12">
+                <strong>Countries</strong>: <span ng-repeat="c in item.details.countries">{{c}} </span>
+            </p>
+            <p ng-if="item.keywords.length > 0" class="col-xs-12">
+                <strong>Keywords</strong>: <span ng-repeat="k in item.keywords">{{k}} </span>
+            </p>
+        </div>
+    </div>
+
+    <div class="row item-effects" ng-if="item.effects.length > 0">
+        <div class="col-xs-12">
+            <h5>Effects</h5>
+            <table class="table table-active">
+                <thead>
+                    <tr>
+                        <th>Effect No</th>
+                        <th>Outcome </th>
+                        <th>Exposure</th>
+                        <th>Group Type</th>
+                        <th>Group</th>
+                        <th>Effect Estimator</th>
+                        <th>Effect Estimator Specifications</th>
+                        <th>Sample</th>
+                        <th>Estimate</th>
+                        <th>Estimate Lower Limit</th>
+                        <th>Estimate Upper Limit</th>
+                        <th>Conclusion Comments</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="effect in item.effects track by $index">
+                        <td >{{effect.effectNb}}</td>
+                        <td>{{effect.outcome}}</td>
+                        <td>{{effect.exposure}}</td>
+                        <td>{{effect.levelType}}</td>
+                        <td>{{effect.level}}</td>
+                        <td>{{effect.measure}}</td>
+                        <td>{{effect.measure_specs}}</td>
+                        <td>{{effect.sample}}</td>
+                        <td>{{effect.estimate}}</td>
+                        <td>{{effect.ci_lwr}}</td>
+                        <td>{{effect.ci_upr}}</td>
+                        <td>{{effect.conclusion}}<br/>{{effect.comments}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>

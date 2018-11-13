@@ -1,0 +1,176 @@
+
+<div id="risk-factor-search-tpl" class="text-form">
+
+    <div class="row breadcrumb">
+        <a ng-href="#/">Home</a>   <i class="fa fa-chevron-right" style="font-size: 11px;color: #888;font-weight: lighter;"></i>  Accident Scenario Search
+    </div>
+
+    <div class="row">
+        <div id="menu" class="list-group main-menu">
+            <ul>
+                <li class="list-group-item "><a ng-href="#/text-search"><img src="assets/images/SafetyCube-KeywordSearch-small-trans.jpg" border="0" class="img-responsive" style="width: 215px"></a></li>
+                <li class="list-group-item "><a ng-href="#/risk-factor-search"><img src="assets/images/SafetyCube-RiskFactors-small-trans.jpg" border="0" class="img-responsive" style="width: 215px"></a></li>
+                <li class="list-group-item "><a ng-href="#/measure-search"><img src="assets/images/SafetyCube-Measures-small-trans.jpg" border="0" class="img-responsive" style="width: 215px"></a></li>
+                <li class="list-group-item "><a ng-href="#/road-user-group-search"><img src="assets/images/SafetyCube-RoadUserGroups-small-trans.jpg" border="0" class="img-responsive" style="width: 215px"></a></li>
+                <li class="list-group-item "><a ng-href="#/accident-scenario-search"><img src="assets/images/SafetyCube-AccCategories-small.jpg" border="0" class="img-responsive" style="width: 215px"></a></li>
+            </ul>
+        </div>
+    </div>
+
+  <div class="row">
+      <div class="col-xs-3"></div>
+      <div class="col-xs-6">
+          <table class="table table-hover table-road-user-groups">
+              <thead>
+                  <tr class="default">
+                      <th>Accident Scenarios</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr ng-repeat="scenario in accidentScenario.accidentScenarios track by $index">
+                      <td><a ng-click="accidentScenario.submitScenarioById(scenario.id)">{{scenario.value}}</a></td>
+                  </tr>
+              </tbody>
+          </table>
+      </div>
+      <div class="col-xs-3"></div>
+  </div>
+
+    <div class="row level-two-factor" ng-if="accidentScenario.showTaxonomies()">
+        <div class="col-xs-6">
+            <div class="row">
+                <div class="well well-sm panel-risk-factors">
+                    <p>Risk Factors</p>
+                </div>
+                <div class="col-xs-4 level-two-factor-column">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr class="default">
+                            <th>Behavior</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-if="accidentScenario.riskFactorsBehavior.length > 0" ng-repeat="beh in accidentScenario.riskFactorsBehavior track by $index" class="active">
+                            <td><a ng-click="accidentScenario.submitRiskFactorSearch(beh.taxonomyId)">{{beh.level_value_template}}</a></td>
+                        </tr>
+                        <tr ng-if="accidentScenario.riskFactorsBehavior.length == 0" class="active">
+                            <td>Not Applicable</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-xs-4 level-two-factor-column">
+                    <table class="table">
+                        <thead>
+                        <tr class="default">
+                            <th>Infrastructure</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-if="accidentScenario.riskFactorsInfrastructure.length > 0" ng-repeat="inf in accidentScenario.riskFactorsInfrastructure track by $index" class="active">
+                            <td><a ng-click="accidentScenario.submitRiskFactorSearch(inf.taxonomyId)">{{inf.level_value_template}}</a></td>
+                        </tr>
+                        <tr ng-if="accidentScenario.riskFactorsInfrastructure.length == 0" class="active">
+                            <td>Not Applicable</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-xs-4 level-two-factor-column">
+                    <table class="table">
+                        <thead>
+                        <tr class="default">
+                            <th>Vehicle</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-if="accidentScenario.riskFactorsVehicle.length > 0" ng-repeat="veh in accidentScenario.riskFactorsVehicle track by $index" class="active">
+                            <td><a ng-click="accidentScenario.submitRiskFactorSearch(veh.taxonomyId)">{{veh.level_value_template}}</a></td>
+                        </tr>
+                        <tr ng-if="accidentScenario.riskFactorsVehicle.length == 0" class="active">
+                            <td>Not Applicable</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="row">
+                <div class="well well-sm panel-measures">
+                    <p>Measures</p>
+                </div>
+                <div class="col-xs-3 level-two-factor-column">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr class="primary">
+                            <th>Behavior</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-if="accidentScenario.measuresBehavior.length > 0" ng-repeat="beh in accidentScenario.measuresBehavior track by $index" class="active">
+                            <td><a ng-click="accidentScenario.submitMeasureSearch(beh.taxonomyId)">{{beh.level_value_template}}</a></td>
+                        </tr>
+                        <tr ng-if="accidentScenario.measuresBehavior.length == 0" class="active">
+                            <td>Not Applicable</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-xs-3 level-two-factor-column">
+                    <table class="table">
+                        <thead>
+                        <tr class="primary">
+                            <th>Infrastructure</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-if="accidentScenario.measuresInfrastructure.length > 0" ng-repeat="inf in accidentScenario.measuresInfrastructure track by $index" class="active">
+                            <td><a ng-click="accidentScenario.submitMeasureSearch(inf.taxonomyId)">{{inf.level_value_template}}</a></td>
+                        </tr>
+                        <tr ng-if="accidentScenario.measuresInfrastructure.length == 0" class="active">
+                            <td>Not Applicable</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-xs-3 level-two-factor-column">
+                    <table class="table">
+                        <thead>
+                        <tr class="primary">
+                            <th>Vehicle</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-if="accidentScenario.measuresVehicle.length > 0" ng-repeat="veh in accidentScenario.measuresVehicle track by $index" class="active">
+                            <td><a ng-click="accidentScenario.submitMeasureSearch(veh.taxonomyId)">{{veh.level_value_template}}</a></td>
+                        </tr>
+                        <tr ng-if="accidentScenario.measuresVehicle.length == 0" class="active">
+                            <td>Not Applicable</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-xs-3 level-two-factor-column">
+                    <table class="table">
+                        <thead>
+                        <tr class="primary">
+                            <th>Post Impact Care</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-if="accidentScenario.measuresPostImpactCare.length > 0" ng-repeat="pic in accidentScenario.measuresPostImpactCare track by $index" class="active">
+                            <td><a ng-click="accidentScenario.submitMeasureSearch(pic.taxonomyId)">{{pic.level_value_template}}</a></td>
+                        </tr>
+                        <tr ng-if="accidentScenario.measuresPostImpactCare.length == 0" class="active">
+                            <td>Not Applicable</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+

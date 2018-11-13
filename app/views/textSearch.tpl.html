@@ -1,0 +1,176 @@
+<div class="row breadcrumb">
+    <a ng-href="#/">Home</a>   <i class="fa fa-chevron-right" style="font-size: 11px;color: #888;font-weight: lighter;"></i>   Keyword Search
+</div>
+
+<div id="text-search-tpl" class="text-form">
+
+    <div class="row">
+        <div id="menu" class="list-group main-menu">
+            <ul>
+                <li class="list-group-item "><a ng-href="#/text-search"><img src="assets/images/SafetyCube-KeywordSearch-small.jpg" border="0" class="img-responsive" style="width: 215px"></a></li>
+                <li class="list-group-item "><a ng-href="#/risk-factor-search"><img src="assets/images/SafetyCube-RiskFactors-small-trans.jpg" border="0" class="img-responsive" style="width: 215px"></a></li>
+                <li class="list-group-item "><a ng-href="#/measure-search"><img src="assets/images/SafetyCube-Measures-small-trans.jpg" border="0" class="img-responsive" style="width: 215px"></a></li>
+                <li class="list-group-item "><a ng-href="#/road-user-group-search"><img src="assets/images/SafetyCube-RoadUserGroups-small-trans.jpg" border="0" class="img-responsive" style="width: 215px"></a></li>
+                <li class="list-group-item "><a ng-href="#/accident-scenario-search"><img src="assets/images/SafetyCube-AccCategories-small-trans.jpg" border="0" class="img-responsive" style="width: 215px"></a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <!--<form novalidate focus-first-error ng-submit="textSearch.submitTextSearch()" name="textSearch.searchForm">-->
+
+            <div class="keyword-search">
+                <div angucomplete-alt
+                     id="textSearchAutocomplete"
+                     placeholder="Type your search term here"
+                     pause="100"
+                     selected-object="textSearch.selectedKwd"
+                     local-data="textSearch.keywords"
+                     search-fields="value"
+                     title-field="value"
+                     minlength="2"
+                     match-class="highlight"
+                    input-class="form-control">
+                </div>
+            </div>
+
+            <div class="row level-two-factor" ng-if="textSearch.showType()">
+                <div class="col-xs-6">
+                    <div class="row">
+                        <div class="well well-sm panel-risk-factors">
+                            <p>Risk Factors</p>
+                        </div>
+                        <div class="col-xs-4 level-two-factor-column">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr class="default">
+                                        <th>Behavior</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-if="textSearch.riskFactorsBehavior.length > 0" ng-repeat="beh in textSearch.riskFactorsBehavior track by $index" class="active">
+                                        <td><a ng-click="textSearch.submitRiskFactorSearch(beh.taxonomyId)">{{beh.level_value_template}}</a></td>
+                                    </tr>
+                                    <tr ng-if="textSearch.riskFactorsBehavior.length == 0" class="active">
+                                        <td>Not Applicable</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-xs-4 level-two-factor-column">
+                            <table class="table">
+                                <thead>
+                                    <tr class="default">
+                                        <th>Infrastructure</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-if="textSearch.riskFactorsInfrastructure.length > 0" ng-repeat="inf in textSearch.riskFactorsInfrastructure track by $index" class="active">
+                                        <td><a ng-click="textSearch.submitRiskFactorSearch(inf.taxonomyId)">{{inf.level_value_template}}</a></td>
+                                    </tr>
+                                    <tr ng-if="textSearch.riskFactorsInfrastructure.length == 0" class="active">
+                                        <td>Not Applicable</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-xs-4 level-two-factor-column">
+                            <table class="table">
+                                <thead>
+                                    <tr class="default">
+                                        <th>Vehicle</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-if="textSearch.riskFactorsVehicle.length > 0" ng-repeat="veh in textSearch.riskFactorsVehicle track by $index" class="active">
+                                        <td><a ng-click="textSearch.submitRiskFactorSearch(veh.taxonomyId)">{{veh.level_value_template}}</a></td>
+                                    </tr>
+                                    <tr ng-if="textSearch.riskFactorsVehicle.length == 0" class="active">
+                                        <td>Not Applicable</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="row">
+                        <div class="well well-sm panel-measures">
+                            <p>Measures</p>
+                        </div>
+                        <div class="col-xs-3 level-two-factor-column">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr class="primary">
+                                        <th>Behavior</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-if="textSearch.measuresBehavior.length > 0" ng-repeat="beh in textSearch.measuresBehavior track by $index" class="active">
+                                        <td><a ng-click="textSearch.submitMeasureSearch(beh.taxonomyId)">{{beh.level_value_template}}</a></td>
+                                    </tr>
+                                    <tr ng-if="textSearch.measuresBehavior.length == 0" class="active">
+                                        <td>Not Applicable</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-xs-3 level-two-factor-column">
+                            <table class="table">
+                                <thead>
+                                    <tr class="primary">
+                                        <th>Infrastructure</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-if="textSearch.measuresInfrastructure.length > 0" ng-repeat="inf in textSearch.measuresInfrastructure track by $index" class="active">
+                                        <td><a ng-click="textSearch.submitMeasureSearch(inf.taxonomyId)">{{inf.level_value_template}}</a></td>
+                                    </tr>
+                                    <tr ng-if="textSearch.measuresInfrastructure.length == 0" class="active">
+                                        <td>Not Applicable</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-xs-3 level-two-factor-column">
+                            <table class="table">
+                                <thead>
+                                    <tr class="primary">
+                                        <th>Vehicle</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-if="textSearch.measuresVehicle.length > 0" ng-repeat="veh in textSearch.measuresVehicle track by $index" class="active">
+                                        <td><a ng-click="textSearch.submitMeasureSearch(veh.taxonomyId)">{{veh.level_value_template}}</a></td>
+                                    </tr>
+                                    <tr ng-if="textSearch.measuresVehicle.length == 0" class="active">
+                                        <td>Not Applicable</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-xs-3 level-two-factor-column">
+                            <table class="table">
+                                <thead>
+                                <tr class="primary">
+                                    <th>Post Impact Care</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-if="textSearch.measuresPostImpactCare.length > 0" ng-repeat="pic in textSearch.measuresPostImpactCare track by $index" class="active">
+                                    <td><a ng-click="textSearch.submitMeasureSearch(pic.taxonomyId)">{{pic.level_value_template}}</a></td>
+                                </tr>
+                                <tr ng-if="textSearch.measuresPostImpactCare.length == 0" class="active">
+                                    <td>Not Applicable</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        <!--</form>-->
+    </div>
+</div>

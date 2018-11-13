@@ -1,0 +1,551 @@
+<div class="row breadcrumb">
+    <a ng-href="#/">Home</a>   <i class="fa fa-chevron-right" style="font-size: 11px;color: #888;font-weight: lighter;"></i>   Calculator
+</div>
+
+<div class="row methodology">
+
+    <div class="col-xs-2">
+        <img src="assets/images/SafetyCube-Calculator.jpg" class="img-responsive">
+    </div>
+    <div class="col-xs-10">
+        <h3>Calculator</h3>
+        <p>The calculator for Economic Efficiency Evaluation (E3) of road safety counter measures allows to combine information about the effectiveness of a measure (i.e. the percentage of crashes or casualties prevented) with the costs of this measure. The calculator also integrates updated information of crash-costs in the European countries, allowing to express all costs and benefits of a measure in monetary values and conducting cost benefit analysis. Select one of the SafetyCube cost benefit analyses examples, or perform a cost benefit analysis with your own input data. A Guide for using the SafetyCube DSS calculator is available for download <a href="assets/data/pdf/SafetyCube_DSS_introduction_E3calculator_V1.pdf" target="_blank">here</a>.</p>
+        <p><strong>All figures and estimates refer to euros for year 2015.</strong></p>
+    </div>
+
+</div>
+
+<div class="row">
+
+
+
+    <div id="calculator-input" class="col-md-6">
+
+        <h3>Input</h3>
+
+        <form class="form-horizontal" ng-submit="calculator.calculateFromInput()">
+
+            <div class="btn-group col-xs-12" data-toggle="buttons">
+                <label class="btn btn-default col-xs-5" ng-class="calculator.chooseMyMeasureInput ? 'active' : ''">
+                    <input type="radio" name="exampleRadios" id="option2" ng-click="calculator.chooseMeasureEntryPoint('MY_MEASURE')"> My Measure
+                </label>
+                <label class="btn btn-default col-xs-7" ng-class="!calculator.chooseMyMeasureInput ? 'active' : ''">
+                    <input type="radio" name="exampleRadios" id="option3" ng-click="calculator.chooseMeasureEntryPoint('EXAMPLES')"> Select A SafetyCube Example
+                </label>
+            </div>
+            <br/><br/>
+
+            <div ng-show="calculator.chooseMyMeasureInput" class="calculator-groups">
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <input type="text" class="form-control" id="inputMyMeasure" placeholder="My Measure..." ng-model="calculator.myMeasure">
+                    </div>
+                </div>
+            </div>
+
+            <div ng-show="!calculator.chooseMyMeasureInput" class="calculator-groups">
+                <div class="form-group">
+                    <div class="col-lg-12">
+                        <select class="form-control" id="selectedInput" ng-change="calculator.selectInputExample()" ng-model="calculator.selectedInputId">
+                            <option value="">Select an Example</option>
+                            <option ng-repeat="input in calculator.inputs" value="{{input.id}}">{{input.taxonomy}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <br/>
+            <div class="form-group">
+                <div class="col-xs-3 col-xs-offset-5">
+                    <button class="btn btn-sm" ng-click="calculator.cloneMeasure()" ng-disabled="calculator.isCloneEnabled"><i class="fa fa-plus"></i> Add Scenario</button>
+                </div>
+                <div class="col-xs-3">
+                    <button class="btn btn-sm" ng-click="calculator.removeMeasure()" ng-disabled="!calculator.isCloneEnabled"><i class="fa fa-trash"></i> Remove Scenario</button>
+                </div>
+            </div>
+
+
+            <hr/>
+
+            <div class="form-group">
+                <label for="inputDescription" class="col-lg-4 control-label">Description</label>
+                <div class="col-lg-8">
+                    <input type="text" class="form-control" id="inputDescription" placeholder="Description..." ng-model="calculator.descriptionOfUnit">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="selectedCountry" class="col-lg-4 control-label">Country</label>
+                <div class="col-lg-8">
+                    <select class="form-control" id="selectedCountry" ng-model="calculator.countryId" required="required">
+                        <option value="">Select a Country</option>
+                        <option ng-repeat="country in calculator.countries" ng-value="country.id">{{country.name}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <h5>Measure</h5>
+
+            <div class="form-group">
+                <label for="inputHorizon" class="col-lg-4 control-label">Horizon (period of analysis)</label>
+                <div class="col-lg-8">
+                    <input type="text" class="form-control" id="inputHorizon" placeholder="Horizon (period of analysis)" ng-model="calculator.horizon" required="required">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-lg-4 control-label">Reduction in terms of casualties or crashes</label>
+                <div class="col-lg-8">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="reductionRadios" value="1" ng-model="calculator.reduction">
+                            Casualties
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="reductionRadios" value="2" ng-model="calculator.reduction">
+                            Crashes
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="inputUnits" class="col-lg-4 control-label">Number of units implemented</label>
+                <div class="col-lg-8">
+                    <input type="text" class="form-control" id="inputUnits" placeholder="Number of units implemented" ng-model="calculator.numberOfUnits" required="required">
+                </div>
+            </div>
+
+            <h5>Costs</h5>
+
+            <div class="form-group">
+                <label class="col-sm-1"></label>
+                <div class="col-sm-11">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="costRadios" ng-click="calculator.chooseCosts('COSTS_PER_UNIT')" ng-checked="calculator.calculateCostPerUnit">
+                            Cost Breakdown Per Unit
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="costRadios" ng-click="calculator.chooseCosts('TOTAL_COSTS')" ng-checked="!calculator.calculateCostPerUnit">
+                            Total Costs Per Unit
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="calculator-groups">
+            <div class="form-check"ng-show="calculator.chooseMyMeasureInput">
+                <label class="form-check-label">
+                    <input class="form-check-input" type="checkbox" ng-click="calculator.toggleConversion()" ng-model="calculator.shouldConvert">
+                    <strong>I have measure costs for a different country / year</strong>
+                </label>
+            </div>
+            <div ng-show="calculator.shouldConvert">
+                <div class="form-group">
+                    <div class="col-xs-8">
+                        <select class="form-control" id="toCountry" ng-model="calculator.toCountryId" ng-required="calculator.shouldConvert" ng-change="calculator.findPppConversion()">
+                            <option value="">Select a Country</option>
+                            <option ng-repeat="c in calculator.countries" ng-value="c.id">{{c.name}}</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-4">
+                        <select class="form-control" id="selectedCurrency" ng-model="calculator.selectedToYear" ng-required="calculator.shouldConvert" ng-change="calculator.findInflationConversion()">
+                            <option value="">Select a Year</option>
+                            <option ng-repeat="year in calculator.yearsWithCost" value="{{year.value}}">{{year.value}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-show="calculator.calculateCostPerUnit">
+            <div class="form-group">
+                <label for="inputCostsPerUnit" class="col-lg-4 control-label">Implementation costs per unit</label>
+                <div ng-class="calculator.isCloneEnabled ? 'col-xs-4' : 'col-xs-8' ">
+                    <input type="text" class="form-control" id="inputCostsPerUnit" placeholder="Implementation costs per unit" ng-model="calculator.implementationCostsPerUnit">
+                </div>
+                <div ng-class="calculator.isCloneEnabled ? 'col-xs-4' : '' " ng-show="calculator.isCloneEnabled">
+                    <input type="text" class="form-control" id="inputCostsPerUnitClone" placeholder="Implementation costs per unit" ng-model="calculator.implementationCostsPerUnitClone">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="inputAnnuallyRecurrentCosts" class="col-lg-4 control-label">Annually recurrent costs per unit</label>
+                <div ng-class="calculator.isCloneEnabled ? 'col-xs-4' : 'col-xs-8' ">
+                    <input type="text" class="form-control" id="inputAnnuallyRecurrentCosts" placeholder="Annually recurrent costs per unit" ng-model="calculator.annuallyRecurrentCostsPerUnit">
+                </div>
+                <div ng-class="calculator.isCloneEnabled ? 'col-xs-4' : '' " ng-show="calculator.isCloneEnabled">
+                    <input type="text" class="form-control" id="inputAnnuallyRecurrentCostsClone" placeholder="Annually recurrent costs per unit" ng-model="calculator.annuallyRecurrentCostsPerUnitClone">
+                </div>
+            </div>
+        </div>
+
+         <div ng-show="!calculator.calculateCostPerUnit">
+            <div class="form-group">
+                <label for="inputTotalCosts" class="col-lg-4 control-label">Total costs (initial + annual costs for all years) per unit</label>
+                <div ng-class="calculator.isCloneEnabled ? 'col-xs-4' : 'col-xs-8' ">
+                    <input type="text" class="form-control" id="inputTotalCosts" placeholder="Total costs (initial + annual costs for all years)" ng-model="calculator.totalCostsPerUnit">
+                </div>
+                <div ng-class="calculator.isCloneEnabled ? 'col-xs-4' : '' " ng-show="calculator.isCloneEnabled">
+                    <input type="text" class="form-control" id="inputTotalCostsClone" placeholder="Total costs (initial + annual costs for all years)" ng-model="calculator.totalCostsPerUnitClone">
+                </div>
+            </div>
+         </div>
+
+          <div ng-show="calculator.shouldConvert">
+              <div class="form-group">
+                <input type="button" ng-click="calculator.convertCosts()" value="Convert" class="col-xs-4 col-xs-offset-4 btn btn-sm" />
+              </div>
+          </div>
+          </div>
+
+            <h5>Definition of Crashes Affected or Crashes Prevented</h5>
+
+            <div class="form-group">
+                <label class="col-sm-1"></label>
+                <div class="col-sm-11">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="caseRadios" ng-click="calculator.chooseCases('PER_YEAR')" ng-checked="calculator.perYearCase">
+                            Express safety effect as percentage reduction and number of target crashes/casualties per year
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="caseRadios" ng-click="calculator.chooseCases('TOTALS')" ng-checked="!calculator.perYearCase">
+                            Express safety effect as number of prevented crashes/casualties (total over all years)
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-show="calculator.perYearCase" class="calculator-groups">
+                <p><b>Number of target crashes/casualties per year</b></p>
+
+                <div class="form-group">
+                    <label for="inputFatalitiesInAffectedNumber" class="col-lg-4 control-label">Fatalities / fatal crashes</label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" id="inputFatalitiesInAffectedNumber" placeholder="Fatalities / fatal crashes" ng-model="calculator.fatalitiesInAffectedNumber">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputSeriousInjuriesInAffectedNumber" class="col-lg-4 control-label">Serious injuries / serious injury crashes</label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" id="inputSeriousInjuriesInAffectedNumber" placeholder="Serious injuries / serious injury crashes" ng-model="calculator.seriousInjuriesInAffectedNumber">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputSlightInjuriesInAffectedNumber" class="col-lg-4 control-label">Slight injuries / slight injury crashes</label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" id="inputSlightInjuriesInAffectedNumber" placeholder="Slight injuries / slight injury crashes" ng-model="calculator.slightInjuriesInAffectedNumber">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputPdoInAffectedNumber" class="col-lg-4 control-label">PDO</label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" id="inputPdoInAffectedNumber" placeholder="PDO" ng-model="calculator.pdoInAffectedNumber">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputAffectedInjuriesSlightSerious" class="col-lg-4 control-label" style="font-style: italic">Affected Casualties Slight Serious</label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" id="inputAffectedInjuriesSlightSerious" placeholder="Affected Casualties Slight Serious" ng-model="calculator.affectedInjuriesSlightSerious">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputAffectedCasualtiesSlightSeriousFatal" class="col-lg-4 control-label" style="font-style: italic">Affected Casualties Slight Serious Fatal</label>
+                    <div class="col-xs-8" >
+                        <input type="text" class="form-control" id="inputAffectedCasualtiesSlightSeriousFatal" placeholder="Affected Casualties Slight Serious Fatal" ng-model="calculator.affectedInjuriesSlightSeriousFatal">
+                    </div>
+                </div>
+
+                <p><b>Effectiveness (percentage reduction in target group)</b></p>
+
+                <div class="form-group">
+                    <label for="inputFatalitiesInEffectiveness" class="col-lg-4 control-label">Fatalities / fatal crashes</label>
+                    <div ng-class="calculator.isCloneEnabled ? 'col-xs-4' : 'col-xs-8' ">
+                        <input type="text" class="form-control" id="inputFatalitiesInEffectiveness" placeholder="Fatalities / fatal crashes" ng-model="calculator.fatalitiesInEffectiveness">
+                    </div>
+                    <div ng-class="calculator.isCloneEnabled ? 'col-xs-4' : '' " ng-show="calculator.isCloneEnabled">
+                        <input type="text" class="form-control" id="inputFatalitiesInEffectivenessClone" placeholder="Fatalities / fatal crashes" ng-model="calculator.fatalitiesInEffectivenessClone">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputSeriousInjuriesInEffectiveness" class="col-lg-4 control-label">Serious injuries / serious injury crashes</label>
+                    <div ng-class="calculator.isCloneEnabled ? 'col-xs-4' : 'col-xs-8' ">
+                        <input type="text" class="form-control" id="inputSeriousInjuriesInEffectiveness" placeholder="Serious injuries / serious injury crashes" ng-model="calculator.seriousInjuriesInEffectiveness">
+                    </div>
+                    <div ng-class="calculator.isCloneEnabled ? 'col-xs-4' : '' " ng-show="calculator.isCloneEnabled">
+                        <input type="text" class="form-control" id="inputSeriousInjuriesInEffectivenessClone" placeholder="Serious injuries / serious injury crashes" ng-model="calculator.seriousInjuriesInEffectivenessClone">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputSlightInjuriesInEffectiveness" class="col-lg-4 control-label">Slight injuries / slight injury crashes</label>
+                    <div ng-class="calculator.isCloneEnabled ? 'col-xs-4' : 'col-xs-8' ">
+                        <input type="text" class="form-control" id="inputSlightInjuriesInEffectiveness" placeholder="Slight injuries / slight injury crashes" ng-model="calculator.slightInjuriesInEffectiveness">
+                    </div>
+                    <div ng-class="calculator.isCloneEnabled ? 'col-xs-4' : '' " ng-show="calculator.isCloneEnabled">
+                        <input type="text" class="form-control" id="inputSlightInjuriesInEffectivenessClone" placeholder="Slight injuries / slight injury crashes" ng-model="calculator.slightInjuriesInEffectivenessClone">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputpdoInEffectiveness" class="col-lg-4 control-label">PDO</label>
+                    <div ng-class="calculator.isCloneEnabled ? 'col-xs-4' : 'col-xs-8' ">
+                        <input type="text" class="form-control" id="inputpdoInEffectiveness" placeholder="PDO" ng-model="calculator.pdoInEffectiveness">
+                    </div>
+                    <div ng-class="calculator.isCloneEnabled ? 'col-xs-4' : '' " ng-show="calculator.isCloneEnabled">
+                        <input type="text" class="form-control" id="inputpdoInEffectivenessClone" placeholder="PDO" ng-model="calculator.pdoInEffectivenessClone">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputEffectivenessInjuriesSlightSerious" class="col-lg-4 control-label" style="font-style: italic">Effectiveness Casualties Slight Serious</label>
+                    <div ng-class="calculator.isCloneEnabled ? 'col-xs-4' : 'col-xs-8' ">
+                        <input type="text" class="form-control" id="inputEffectivenessInjuriesSlightSerious" placeholder="Effectiveness Casualties Slight Serious" ng-model="calculator.effectivenessInjuriesSlightSerious">
+                    </div>
+                    <div ng-class="calculator.isCloneEnabled ? 'col-xs-4' : '' " ng-show="calculator.isCloneEnabled">
+                        <input type="text" class="form-control" id="inputEffectivenessInjuriesSlightSeriousClone" placeholder="Effectiveness Casualties Slight Serious" ng-model="calculator.effectivenessInjuriesSlightSeriousClone">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputEffectivenessCasualtiesSlightSeriousFatal" class="col-lg-4 control-label" style="font-style: italic">Effectiveness Casualties Slight Serious Fatal</label>
+                    <div ng-class="calculator.isCloneEnabled ? 'col-xs-4' : 'col-xs-8' ">
+                        <input type="text" class="form-control" id="inputEffectivenessCasualtiesSlightSeriousFatal" placeholder="Effectiveness Casualties Slight Serious Fatal" ng-model="calculator.effectivenessInjuriesSlightSeriousFatal">
+                    </div>
+                    <div ng-class="calculator.isCloneEnabled ? 'col-xs-4' : '' " ng-show="calculator.isCloneEnabled">
+                        <input type="text" class="form-control" id="inputEffectivenessCasualtiesSlightSeriousFatalClone" placeholder="Effectiveness Casualties Slight Serious Fatal" ng-model="calculator.effectivenessInjuriesSlightSeriousFatalClone">
+                    </div>
+                </div>
+
+            </div>
+
+            <div ng-show="!calculator.perYearCase" class="calculator-groups">
+                <p><b>Express safety effect as number of prevented crashes/casualties (total over all years)</b></p>
+
+                <div class="form-group">
+                    <label for="inputFatalitiesInPreventedCrashesId" class="col-lg-4 control-label">Fatalities / fatal crashes</label>
+                    <div ng-class="calculator.isCloneEnabled ? 'col-xs-4' : 'col-xs-8' ">
+                        <input type="text" class="form-control" id="inputFatalitiesInPreventedCrashesId" placeholder="Fatalities / fatal crashes" ng-model="calculator.fatalitiesInPreventedCrashes">
+                    </div>
+                    <div ng-class="calculator.isCloneEnabled ? 'col-xs-4' : '' " ng-show="calculator.isCloneEnabled">
+                        <input type="text" class="form-control" id="inputFatalitiesInPreventedCrashesIdClone" placeholder="Fatalities / fatal crashes" ng-model="calculator.fatalitiesInPreventedCrashesClone">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputSeriousInjuriesInPreventedCrashesId" class="col-lg-4 control-label">Serious injuries / serious injury crashes</label>
+                    <div ng-class="calculator.isCloneEnabled ? 'col-xs-4' : 'col-xs-8' ">
+                        <input type="text" class="form-control" id="inputSeriousInjuriesInPreventedCrashesId" placeholder="Serious injuries / serious injury crashes" ng-model="calculator.seriousInjuriesInPreventedCrashes">
+                    </div>
+                    <div ng-class="calculator.isCloneEnabled ? 'col-xs-4' : '' " ng-show="calculator.isCloneEnabled">
+                        <input type="text" class="form-control" id="inputSeriousInjuriesInPreventedCrashesIdClone" placeholder="Serious injuries / serious injury crashes" ng-model="calculator.seriousInjuriesInPreventedCrashesClone">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputSlightInjuriesInPreventedCrashesId" class="col-lg-4 control-label">Slight injuries / slight injury crashes</label>
+                    <div ng-class="calculator.isCloneEnabled ? 'col-xs-4' : 'col-xs-8' ">
+                        <input type="text" class="form-control" id="inputSlightInjuriesInPreventedCrashesId" placeholder="Slight injuries / slight injury crashes" ng-model="calculator.slightInjuriesInPreventedCrashes">
+                    </div>
+                    <div ng-class="calculator.isCloneEnabled ? 'col-xs-4' : '' " ng-show="calculator.isCloneEnabled">
+                        <input type="text" class="form-control" id="inputSlightInjuriesInPreventedCrashesIdClone" placeholder="Slight injuries / slight injury crashes" ng-model="calculator.slightInjuriesInPreventedCrashesClone">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputPdoInPreventedCrashesId" class="col-lg-4 control-label">PDO</label>
+                    <div ng-class="calculator.isCloneEnabled ? 'col-xs-4' : 'col-xs-8' ">
+                        <input type="text" class="form-control" id="inputPdoInPreventedCrashesId" placeholder="PDO" ng-model="calculator.pdoInPreventedCrashes">
+                    </div>
+                    <div ng-class="calculator.isCloneEnabled ? 'col-xs-4' : '' " ng-show="calculator.isCloneEnabled">
+                        <input type="text" class="form-control" id="inputPdoInPreventedCrashesIdClone" placeholder="PDO" ng-model="calculator.pdoInPreventedCrashesClone">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputPreventedInjuriesSlightSerious" class="col-lg-4 control-label" style="font-style: italic">Prevented Casualties Slight Serious</label>
+                    <div ng-class="calculator.isCloneEnabled ? 'col-xs-4' : 'col-xs-8' ">
+                        <input type="text" class="form-control" id="inputPreventedInjuriesSlightSerious" placeholder="Prevented Casualties Slight Serious" ng-model="calculator.preventedInjuriesSlightSerious">
+                    </div>
+                    <div ng-class="calculator.isCloneEnabled ? 'col-xs-4' : '' " ng-show="calculator.isCloneEnabled">
+                        <input type="text" class="form-control" id="inputPreventedInjuriesSlightSeriousClone" placeholder="Prevented Casualties Slight Serious" ng-model="calculator.preventedInjuriesSlightSeriousClone">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputPreventedCasualtiesSlightSeriousFatal" class="col-lg-4 control-label" style="font-style: italic">Prevented Casualties Slight Serious Fatal</label>
+                    <div ng-class="calculator.isCloneEnabled ? 'col-xs-4' : 'col-xs-8' ">
+                        <input type="text" class="form-control" id="inputPreventedCasualtiesSlightSeriousFatal" placeholder="Prevented Casualties Slight Serious Fatal" ng-model="calculator.preventedInjuriesSlightSeriousFatal">
+                    </div>
+                    <div ng-class="calculator.isCloneEnabled ? 'col-xs-4' : '' " ng-show="calculator.isCloneEnabled">
+                        <input type="text" class="form-control" id="inputPreventedCasualtiesSlightSeriousFatalClone" placeholder="Prevented Casualties Slight Serious Fatal" ng-model="calculator.preventedInjuriesSlightSeriousFatalClone">
+                    </div>
+                </div>
+            </div>
+
+            <h5>Penetration rate</h5>
+
+            <div class="form-group">
+                <label for="penetrationRateBeforeImplementationId" class="col-lg-4 control-label">Penetration rate before implementation</label>
+                <div class="col-lg-8">
+                    <input type="text" class="form-control" id="penetrationRateBeforeImplementationId" placeholder="Penetration rate before implementation" ng-model="calculator.penetrationRateBeforeImplementation">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="penetrationRateAfterImplementationId" class="col-lg-4 control-label">Penetration rate after implementation</label>
+                <div class="col-lg-8">
+                    <input type="text" class="form-control" id="penetrationRateAfterImplementationId" placeholder="Penetration rate after implementation" ng-model="calculator.penetrationRateAfterImplementation">
+                </div>
+            </div>
+
+            <h5>Side Effects</h5>
+
+            <div class="form-group">
+                <label for="annualCostSideEffectsId" class="col-lg-4 control-label">Annual cost side effects</label>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control" id="annualCostSideEffectsId" placeholder="Annual cost side effects" ng-model="calculator.annualCostSideEffects">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="totalCostOfSideEffectsId" class="col-lg-4 control-label">Total cost of side effects</label>
+                <div class="col-xs-8">
+                    <input type="text" class="form-control" id="totalCostOfSideEffectsId" placeholder="Total cost of side effects" ng-model="calculator.totalCostOfSideEffects">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-6 col-md-offset-6">
+                    <button type="submit" class="btn btn-lg btn-primary">Submit</button>
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+
+    <div id="calculator-output" class="col-md-6">
+
+        <h3>Cost-Benefit Analysis</h3>
+
+        <p style="color:#e95420;" ng-if="calculator.myMeasure">{{calculator.myMeasure}}</p>
+
+        <h4 ng-if="calculator.inputTaxonomy">{{calculator.inputTaxonomy}}</h4>
+        <p style="color:#e95420;">{{calculator.descriptionOfUnit}}</p>
+
+        <h4>Costs (present values)</h4>
+
+        <table class="table table-bordered ">
+            <tr>
+                <td class="output-label"></td>
+                <td><span class="dss-orange">Scenario 1</span></td>
+                <td ng-show="calculator.isCloneEnabled"><span class="dss-orange"> Scenario 2</span></td>
+            </tr>
+            <tr>
+                <td class="output-label">One-time investment costs</td>
+                <td>{{ calculator.oneTimeInvestementCostsOutput }} {{ calculator.currencyOutput }}</td>
+                <td ng-show="calculator.isCloneEnabled">{{ calculator.oneTimeInvestementCostsOutputClone }} {{ calculator.currencyOutput }}</td>
+            </tr>
+            <tr>
+                <td class="output-label">Recurrent costs</td>
+                <td>{{ calculator.recurrentCostsOutput }} {{ calculator.currencyOutput }}</td>
+                <td ng-show="calculator.isCloneEnabled">{{ calculator.recurrentCostsOutputClone }} {{ calculator.currencyOutput }}</td>
+            </tr>
+            <tr>
+                <td class="output-label">Total costs excluding side-effects</td>
+                <td>{{ calculator.totalCostsExcludingSideEffectsOutput }} {{ calculator.currencyOutput }}</td>
+                <td ng-show="calculator.isCloneEnabled">{{ calculator.totalCostsExcludingSideEffectsOutputClone }} {{ calculator.currencyOutput }}</td>
+            </tr>
+            <tr>
+                <td colspan="2"></td>
+            </tr>
+            <tr>
+                <td class="output-label">Side-effects</td>
+                <td>{{ calculator.sideEffectsOutput }} {{ calculator.currencyOutput }}</td>
+                <td ng-show="calculator.isCloneEnabled">{{ calculator.sideEffectsOutput }} {{ calculator.currencyOutput }}</td>
+            </tr>
+            <tr>
+                <td class="output-label">Total costs including side-effects</td>
+                <td>{{ calculator.totalCostsIncludingSideEffectsOutput }} {{ calculator.currencyOutput }}</td>
+                <td ng-show="calculator.isCloneEnabled">{{ calculator.totalCostsIncludingSideEffectsOutputClone }} {{ calculator.currencyOutput }}</td>
+            </tr>
+        </table>
+
+        <h4>Benefits</h4>
+
+        <table class="table table-bordered ">
+            <tr>
+                <td class="output-label">Prevented Crashes / Casualties</td>
+                <td>{{ calculator.preventedCrashesOutput }} {{ calculator.currencyOutput }}</td>
+                <td ng-show="calculator.isCloneEnabled">{{ calculator.preventedCrashesOutputClone }} {{ calculator.currencyOutput }}</td>
+            </tr>
+        </table>
+
+        <h4>Socio-economic return excluding side-effects</h4>
+
+        <table class="table table-bordered ">
+            <tr>
+                <td class="output-label">Net present value</td>
+                <td>{{ calculator.netPresentCrashesExcludingSideEffectsOutput }} {{ calculator.currencyOutput }}</td>
+                <td ng-show="calculator.isCloneEnabled">{{ calculator.netPresentCrashesExcludingSideEffectsOutputClone }} {{ calculator.currencyOutput }}</td>
+            </tr>
+            <tr>
+                <td class="output-label">Benefit-Cost Ratio</td>
+                <td>{{ calculator.costBenefitRatioExcludingSideEffectsOutput }}</td>
+                <td ng-show="calculator.isCloneEnabled">{{ calculator.costBenefitRatioExcludingSideEffectsOutputClone }}</td>
+            </tr>
+        </table>
+
+        <h4>Socio-economic return including side-effects</h4>
+
+        <table class="table table-bordered ">
+            <tr>
+                <td class="output-label">Net present value</td>
+                <td>{{ calculator.netPresentCrashesincludingSideEffectsOutput }} {{ calculator.currencyOutput }}</td>
+                <td ng-show="calculator.isCloneEnabled">{{ calculator.netPresentCrashesincludingSideEffectsOutputClone }} {{ calculator.currencyOutput }}</td>
+            </tr>
+            <tr>
+                <td class="output-label">Benefit-Cost Ratio</td>
+                <td>{{ calculator.costBenefitRatioIncludingSideEffectsOutput }}</td>
+                <td ng-show="calculator.isCloneEnabled">{{ calculator.costBenefitRatioIncludingSideEffectsOutputClone }}</td>
+            </tr>
+        </table>
+
+        <table class="table table-bordered ">
+            <tr>
+                <td class="output-label">Break-even cost for measure (per unit)</td>
+                <td>{{ calculator.breakEvenCostMeasurePerUnitOutput }} {{ calculator.currencyOutput }}</td>
+                <td ng-show="calculator.isCloneEnabled">{{ calculator.breakEvenCostMeasurePerUnitOutputClone }} {{ calculator.currencyOutput }}</td>
+            </tr>
+        </table>
+
+        <table class="table table-bordered " ng-if="calculator.inputPdfOriginalName">
+            <tr>
+                <td class="output-label">
+                    A full description of the methods and data used in this example, as well as a sensitivity analysis, are available in the Cost-Benefit Analysis document:
+                </td>
+                <td>
+                    <a href="assets/data/pdf/cba/{{calculator.inputPdfOriginalName}}" target="_blank" style="color: #a22700;font-size:1.5em;">
+                        <i class="fa fa-file-pdf-o"></i>
+                    </a>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+
+</div>

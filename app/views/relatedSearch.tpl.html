@@ -1,0 +1,261 @@
+<div class="row breadcrumb">
+    <a ng-href="#/">Home</a>   <i class="fa fa-chevron-right" style="font-size: 11px;color: #888;font-weight: lighter;"></i>   Related Measures
+</div>
+
+<div id="related-search-tpl" class="text-form">
+
+    <div class="row">
+        <h5>Related Studies for "<i>{{relatedSearch.subtopic}}</i>"</h5>
+        <p>
+            Τhe following {{relatedSearch.toTerm}}s are related to the {{relatedSearch.fromTerm}} you selected. Select a {{relatedSearch.toTerm}} from the table below to see the available SafetyCube results.
+        </p>
+    </div>
+
+    <div class="row related-frame" ng-if="relatedSearch.risksToMeasures">
+
+            <div class="level-two-factor">
+                <div class="col-xs-12">
+                    <div class="col-xs-3 level-two-factor-column">
+                        <table class="table table-hover table-measures">
+                            <thead>
+                            <tr class="default">
+                                <th>Behavior</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-if="relatedSearch.measuresBehavior.length > 0" ng-repeat="beh in relatedSearch.measuresBehavior track by $index" class="active">
+                                <td><a ng-click="relatedSearch.submitMeasureSearch(beh.id)">{{beh.level_value}}</a></td>
+                            </tr>
+                            <tr ng-if="relatedSearch.measuresBehavior.length == 0" class="active">
+                                <td>Not Applicable</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-xs-3 level-two-factor-column">
+                        <table class="table table-hover table-measures">
+                            <thead>
+                            <tr class="default">
+                                <th>Infrastructure</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-if="relatedSearch.measuresInfrastructure.length > 0" ng-repeat="inf in relatedSearch.measuresInfrastructure track by $index" class="active">
+                                <td><a ng-click="relatedSearch.submitMeasureSearch(inf.id)">{{inf.level_value}}</a></td>
+                            </tr>
+                            <tr ng-if="relatedSearch.measuresInfrastructure.length == 0" class="active">
+                                <td>Not Applicable</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-xs-3 level-two-factor-column">
+                        <table class="table table-hover table-measures">
+                            <thead>
+                            <tr class="default">
+                                <th>Vehicle</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-if="relatedSearch.measuresVehicle.length > 0" ng-repeat="veh in relatedSearch.measuresVehicle track by $index" class="active">
+                                <td><a ng-click="relatedSearch.submitMeasureSearch(veh.id)">{{veh.level_value}}</a></td>
+                            </tr>
+                            <tr ng-if="relatedSearch.measuresVehicle.length == 0" class="active">
+                                <td>Not Applicable</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-xs-3 level-two-factor-column">
+                        <table class="table table-hover table-measures">
+                            <thead>
+                            <tr class="default">
+                                <th>Post Impact Care</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-if="relatedSearch.measuresPostImpactCare.length > 0" ng-repeat="pic in relatedSearch.measuresPostImpactCare track by $index" class="active">
+                                <td><a ng-click="measureSearch.submitMeasureSearch(pic.id)">{{pic.level_value}}</a></td>
+                            </tr>
+                            <tr ng-if="relatedSearch.measuresPostImpactCare.length == 0" class="active">
+                                <td>Not Applicable</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+    </div>
+
+
+    <div class="row related-frame" ng-if="relatedSearch.measuresToRisks">
+
+        <div class="level-two-factor">
+            <div class="col-xs-12">
+                <div class="col-xs-4 level-two-factor-column">
+                    <table class="table table-hover table-risk-factors">
+                        <thead>
+                        <tr class="default">
+                            <th>Behavior</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-if="relatedSearch.riskFactorsBehavior.length > 0" ng-repeat="beh in relatedSearch.riskFactorsBehavior track by $index" class="active">
+                            <td><a ng-click="relatedSearch.submitRiskFactorSearch(beh.id)">{{beh.level_value}}</a></td>
+                        </tr>
+                        <tr ng-if="relatedSearch.riskFactorsBehavior.length == 0" class="active">
+                            <td>Not Applicable</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-xs-4 level-two-factor-column">
+                    <table class="table table-hover table-risk-factors">
+                        <thead>
+                        <tr class="default">
+                            <th>Infrastructure</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-if="relatedSearch.riskFactorsInfrastructure.length > 0" ng-repeat="inf in relatedSearch.riskFactorsInfrastructure track by $index" class="active">
+                            <td><a ng-click="relatedSearch.submitRiskFactorSearch(inf.id)">{{inf.level_value}}</a></td>
+                        </tr>
+                        <tr ng-if="relatedSearch.riskFactorsInfrastructure.length == 0" class="active">
+                            <td>Not Applicable</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-xs-4 level-two-factor-column">
+                    <table class="table table-hover table-risk-factors">
+                        <thead>
+                        <tr class="default">
+                            <th>Vehicle</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-if="relatedSearch.riskFactorsVehicle.length > 0" ng-repeat="veh in relatedSearch.riskFactorsVehicle track by $index" class="active">
+                            <td><a ng-click="relatedSearch.submitRiskFactorSearch(veh.id)">{{veh.level_value}}</a></td>
+                        </tr>
+                        <tr ng-if="relatedSearch.riskFactorsVehicle.length == 0" class="active">
+                            <td>Not Applicable</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+
+<div class="container" ng-if="relatedSearch.relatedReferences">
+    <hr/>
+
+    <div class="row" ng-show="relatedSearch.relatedReferences.length > 0">
+
+        <div class="col-md-3">
+
+            <div class="filter form-group" ng-if="relatedSearch.filtersData.roadUserProfileModes.length > 0">
+                <h4>Road User Group</h4>
+                <div class="checkbox" ng-repeat="profileMode in relatedSearch.filtersData.roadUserProfileModes track by $index">
+                    <label>
+                        <input type="checkbox" ng-model="relatedSearch.selectedFilters.roadUserProfileModes[profileMode]"
+                               ng-click="relatedSearch.filterByCriteria()">
+                        {{profileMode}}
+                    </label>
+                </div>
+            </div>
+
+            <div class="filter form-group" ng-if="relatedSearch.filtersData.roadNetworkProfileArea.length > 0">
+                <h4>Road Type</h4>
+                <div class="checkbox" ng-repeat="profileArea in relatedSearch.filtersData.roadNetworkProfileArea track by $index">
+                    <label>
+                        <input type="checkbox" ng-model="relatedSearch.selectedFilters.roadNetworkProfileArea[profileArea]"
+                               ng-click="relatedSearch.filterByCriteria()">
+                        {{profileArea}}
+                    </label>
+                </div>
+            </div>
+
+            <div class="filter form-group" ng-if="relatedSearch.filtersData.countries.length > 0">
+                <h4>Countries</h4>
+                <div class="checkbox" ng-repeat="country in relatedSearch.filtersData.countries track by $index">
+                    <label>
+                        <input type="checkbox" ng-model="relatedSearch.selectedFilters.countries[country]"
+                               ng-click="relatedSearch.filterByCriteria()">
+                        {{country}}
+                    </label>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-md-9">
+
+            <h5 ng-if="relatedSearch.synopsis.length > 0">
+                SafetyCube Synopses
+            </h5>
+            <div ng-if="relatedSearch.synopsis.length > 0" class="row reference-results-heading" ng-repeat="synop in relatedSearch.synopsis">
+
+                <div class="synopses-img"><img src="assets/images/synopses/{{synop.title}}.jpg" border="0" class="img-responsive"></div>
+                <div class="synopses-data"><p><span style="font-size: 14px;font-weight: 600;">{{synop.title}}</span>: <i class="fa fa-circle  {{relatedSearch.getColorCodeClass(synop)}}"></i>
+                    <i>{{synop.colorCode}}</i> - <a href="assets/data/pdf/synopses/{{synop.name}}" target="_blank" style="color: #a22700"><i class="fa fa-file-pdf-o"></i></a></p>
+                    <p ng-if="synop.motivation">{{synop.motivation}}</p>
+                </div>
+
+            </div>
+
+            <div class="row reference-results">
+                <table class="table table-active">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Source</th>
+                        <th>Year</th>
+                        <th>Design</th>
+                        <th>Countries</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="ref in relatedSearch.relatedReferences">
+                        <td><a ng-click="relatedSearch.showItem(ref.id)">{{ref.id}}</a></td>
+                        <td><a ng-click="relatedSearch.showItem(ref.id)">{{ref.title}}</a></td>
+                        <td><a ng-click="relatedSearch.showItem(ref.id)">{{ref.source}}</a></td>
+                        <td><a ng-click="relatedSearch.showItem(ref.id)">{{ref.year}}</a></td>
+                        <td><a ng-click="relatedSearch.showItem(ref.id)">{{ref.design}}</a></td>
+                        <td>
+                            <a ng-click="relatedSearch.showItem(ref.id)">
+                                <span ng-repeat="c in ref.countries">{{c}}</span><br/>
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+     </div>
+
+    <div class="row" ng-show="relatedSearch.relatedReferences.length == 0">
+
+        <div class="col-md-12">
+            There are no related results for this taxonomy.
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+

@@ -1,0 +1,176 @@
+
+<div id="risk-factor-search-tpl" class="text-form">
+
+    <div class="row breadcrumb">
+        <a ng-href="#/">Home</a>   <i class="fa fa-chevron-right" style="font-size: 11px;color: #888;font-weight: lighter;"></i>   Road User Groups Search
+    </div>
+
+    <div class="row">
+        <div id="menu" class="list-group main-menu">
+            <ul>
+                <li class="list-group-item "><a ng-href="#/text-search"><img src="assets/images/SafetyCube-KeywordSearch-small-trans.jpg" border="0" class="img-responsive" style="width: 215px"></a></li>
+                <li class="list-group-item "><a ng-href="#/risk-factor-search"><img src="assets/images/SafetyCube-RiskFactors-small-trans.jpg" border="0" class="img-responsive" style="width: 215px"></a></li>
+                <li class="list-group-item "><a ng-href="#/measure-search"><img src="assets/images/SafetyCube-Measures-small-trans.jpg" border="0" class="img-responsive" style="width: 215px"></a></li>
+                <li class="list-group-item "><a ng-href="#/road-user-group-search"><img src="assets/images/SafetyCube-RoadUserGroups-small.jpg" border="0" class="img-responsive" style="width: 215px"></a></li>
+                <li class="list-group-item "><a ng-href="#/accident-scenario-search"><img src="assets/images/SafetyCube-AccCategories-small-trans.jpg" border="0" class="img-responsive" style="width: 215px"></a></li>
+            </ul>
+        </div>
+    </div>
+
+  <div class="row">
+      <div class="col-xs-3"></div>
+      <div class="col-xs-6">
+          <table class="table table-hover table-road-user-groups">
+              <thead>
+              <tr class="default">
+                  <th>Road User Groups</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr ng-repeat="kwd in roadUserGroupSearch.keywordRoadUserGroup track by $index">
+                  <td><a ng-click="roadUserGroupSearch.submitRoadUserGroupByKeyword(kwd.id)">{{kwd.name}}</a></td>
+              </tr>
+              </tbody>
+          </table>
+      </div>
+      <div class="col-xs-3"></div>
+  </div>
+
+    <div class="row level-two-factor" ng-if="roadUserGroupSearch.showTaxonomies()">
+        <div class="col-xs-6">
+            <div class="row">
+                <div class="well well-sm panel-risk-factors">
+                    <p>Risk Factors</p>
+                </div>
+                <div class="col-xs-4 level-two-factor-column">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr class="default">
+                            <th>Behavior</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-if="roadUserGroupSearch.riskFactorsBehavior.length > 0" ng-repeat="beh in roadUserGroupSearch.riskFactorsBehavior track by $index" class="active">
+                            <td><a ng-click="roadUserGroupSearch.submitRiskFactorSearch(beh.taxonomyId)">{{beh.level_value_template}}</a></td>
+                        </tr>
+                        <tr ng-if="roadUserGroupSearch.riskFactorsBehavior.length == 0" class="active">
+                            <td>Not Applicable</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-xs-4 level-two-factor-column">
+                    <table class="table">
+                        <thead>
+                        <tr class="default">
+                            <th>Infrastructure</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-if="roadUserGroupSearch.riskFactorsInfrastructure.length > 0" ng-repeat="inf in roadUserGroupSearch.riskFactorsInfrastructure track by $index" class="active">
+                            <td><a ng-click="roadUserGroupSearch.submitRiskFactorSearch(inf.taxonomyId)">{{inf.level_value_template}}</a></td>
+                        </tr>
+                        <tr ng-if="roadUserGroupSearch.riskFactorsInfrastructure.length == 0" class="active">
+                            <td>Not Applicable</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-xs-4 level-two-factor-column">
+                    <table class="table">
+                        <thead>
+                        <tr class="default">
+                            <th>Vehicle</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-if="roadUserGroupSearch.riskFactorsVehicle.length > 0" ng-repeat="veh in roadUserGroupSearch.riskFactorsVehicle track by $index" class="active">
+                            <td><a ng-click="roadUserGroupSearch.submitRiskFactorSearch(veh.taxonomyId)">{{veh.level_value_template}}</a></td>
+                        </tr>
+                        <tr ng-if="roadUserGroupSearch.riskFactorsVehicle.length == 0" class="active">
+                            <td>Not Applicable</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="row">
+                <div class="well well-sm panel-measures">
+                    <p>Measures</p>
+                </div>
+                <div class="col-xs-3 level-two-factor-column">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr class="primary">
+                            <th>Behavior</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-if="roadUserGroupSearch.measuresBehavior.length > 0" ng-repeat="beh in roadUserGroupSearch.measuresBehavior track by $index" class="active">
+                            <td><a ng-click="roadUserGroupSearch.submitMeasureSearch(beh.taxonomyId)">{{beh.level_value_template}}</a></td>
+                        </tr>
+                        <tr ng-if="roadUserGroupSearch.measuresBehavior.length == 0" class="active">
+                            <td>Not Applicable</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-xs-3 level-two-factor-column">
+                    <table class="table">
+                        <thead>
+                        <tr class="primary">
+                            <th>Infrastructure</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-if="roadUserGroupSearch.measuresInfrastructure.length > 0" ng-repeat="inf in roadUserGroupSearch.measuresInfrastructure track by $index" class="active">
+                            <td><a ng-click="roadUserGroupSearch.submitMeasureSearch(inf.taxonomyId)">{{inf.level_value_template}}</a></td>
+                        </tr>
+                        <tr ng-if="roadUserGroupSearch.measuresInfrastructure.length == 0" class="active">
+                            <td>Not Applicable</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-xs-3 level-two-factor-column">
+                    <table class="table">
+                        <thead>
+                        <tr class="primary">
+                            <th>Vehicle</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-if="roadUserGroupSearch.measuresVehicle.length > 0" ng-repeat="veh in roadUserGroupSearch.measuresVehicle track by $index" class="active">
+                            <td><a ng-click="roadUserGroupSearch.submitMeasureSearch(veh.taxonomyId)">{{veh.level_value_template}}</a></td>
+                        </tr>
+                        <tr ng-if="roadUserGroupSearch.measuresVehicle.length == 0" class="active">
+                            <td>Not Applicable</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-xs-3 level-two-factor-column">
+                    <table class="table">
+                        <thead>
+                        <tr class="primary">
+                            <th>Post Impact Care</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-if="roadUserGroupSearch.measuresPostImpactCare.length > 0" ng-repeat="pic in roadUserGroupSearch.measuresPostImpactCare track by $index" class="active">
+                            <td><a ng-click="roadUserGroupSearch.submitMeasureSearch(pic.taxonomyId)">{{pic.level_value_template}}</a></td>
+                        </tr>
+                        <tr ng-if="roadUserGroupSearch.measuresPostImpactCare.length == 0" class="active">
+                            <td>Not Applicable</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+

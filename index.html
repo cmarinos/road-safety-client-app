@@ -1,0 +1,178 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>SafetyCube DSS</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(.) styles/vendor.css -->
+    <!-- Material Design fonts -->
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700">
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bower_components/angucomplete-alt/angucomplete-alt.css">
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="assets/styles/paper.css">
+    <!--<link rel="stylesheet" href="assets/styles/flatly.css">-->
+    <link rel="stylesheet" href="assets/styles/main.css">
+    <!-- endbuild -->
+    <script src="https://use.fontawesome.com/31029ce5c2.js"></script>
+
+</head>
+
+<body ng-app="sfdssApp">
+    <!--[if lte IE 8]>
+<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
+
+    <div id="header" class="header">
+        <div class="container">
+            <div class="col-xs-5">
+                <a ng-href="#/">
+                    <span style="display: block;width: 100%;height: 100px;color: transparent;">.</span>
+                </a>
+            </div>
+            <div class="col-xs-7"></div>
+        </div>
+    </div>
+
+    <div class="dss-menu" ng-controller="MenuCtlr as mc">
+        <div class="container">
+            <div class="col-xs-12">
+                <ul class="pull-right">
+                    <li><a ng-href="#/">Search</a></li>
+                    <li><a ng-href="#/knowledge">Knowledge</a></li>
+                    <li><a ng-href="#/calculator">Calculator</a></li>
+                    <li><a ng-href="#/methodology">Methodology</a></li>
+                    <li><a ng-href="#/support">Support</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="container main-wrapper">
+        <div id="main-content" class="row">
+            <div ng-view=""></div>
+        </div>
+    </div>
+
+
+    <div id="footer" class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 description">
+                    <p><strong>SafetyCube (Safety CaUsation, Benefits and Efficiency)</strong> is a research project funded by the European Commission under the Horizons 2020, the EU Framework Programme for Research and Innovation, in the domain of Road
+                        Safety. The project started on May 1st, 2015 and will run for a period of three years.</p>
+
+                    <p>The primary objective of the SafetyCube project is to develop an innovative road safety <strong>Decision Support System (DSS)</strong> that will enable policy-makers and stakeholders to select and implement the most appropriate strategies,
+                        measures and cost-effective approaches to reduce casualties of all road user types and all severities in Europe and worldwide.</p>
+                </div>
+            </div>
+            <div class="row">
+                <span class="col-xs-12 separator">.</span>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <h3>Funding Reference:</h3>
+                    <p><img src="https://www.safetycube-project.eu/wp-content/uploads/eu_flag.png" style="height:60px;margin:0;padding:0 10px 10px 0;" border="0" align="left">SafetyCube is a project financed by the European Commission: Innovation and Networks Executive Agency (INEA) under the  Horizons 2020 programme (Grant number 633485).</p>
+                    <br/>
+                    <h3>Contact</h3>
+                    <div>Pete Thomas<br> Professor of Road and Vehicle Safety<br> Safe and Smart Mobility Research Cluster<br> Loughborough University<br> Loughborough. LE11 3TU. UK<br> Tel: +44 1509 226931<br> email: SafetyCube@lboro.ac.uk<br>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <h3>Disclaimer</h3>
+                    <p>All the material included in the SafetyCube DSS reflect the authors' view and the SafetyCube Consortium cannot be held liable for third party use of data and information contained in the SafetyCube DSS.</p>
+                    <p>All project results reflect only the author's view and the Innovation and Networks Executive Agency (INEA) is not responsible for any use that may be made of the information they contain.</p>
+                    <p>All data and information contained in the SafetyCube DSS can be downloaded and used at the responsibility of the user, as far as proper reference to these data and information is made.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container-fluid copy">
+        <p style="text-align: right;"> <i class="fa fa-copyright" aria-hidden="true"></i> 2016 SafetyCube DSS - Hand crafted <i class="fa fa-code" aria-hidden="true"></i> from DSS team</p>
+    </div>
+
+
+    <!-- build:js(.) scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-messages/angular-messages.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-touch/angular-touch.js"></script>
+    <script src="bower_components/angucomplete-alt/angucomplete-alt.js"></script>
+    <script src="bower_components/lodash/lodash.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="app.js"></script>
+    <script src="app/security/security.js"></script>
+    <script src="app/security/auth.js"></script>
+    <script src="app/security/token.js"></script>
+    <script src="app/views/main.js"></script>
+    <script src="app/views/menu.js"></script>
+    <script src="app/views/login.js"></script>
+    <script src="app/views/logout.js"></script>
+    <script src="app/views/methodology.js"></script>
+    <script src="app/views/calculator.js"></script>
+    <script src="app/views/support.js"></script>
+    <script src="app/views/knowledge.js"></script>
+    <script src="app/views/textSearch.js"></script>
+    <script src="app/views/riskFactorSearch.js"></script>
+    <script src="app/views/measureSearch.js"></script>
+    <script src="app/views/roadUserGroupSearch.js"></script>
+    <script src="app/views/accidentScenarioSearch.js"></script>
+    <script src="app/views/referenceResults.js"></script>
+    <script src="app/views/relatedSearch.js"></script>
+    <script src="app/views/item.js"></script>
+    <script src="app/resources/resources.js"></script>
+    <script src="app/resources/riskFactorResource.js"></script>
+    <script src="app/resources/keywordsResource.js"></script>
+    <script src="app/resources/referencesResource.js"></script>
+    <script src="app/resources/taxonomyResource.js"></script>
+    <script src="app/resources/roadUserGroupsResource.js"></script>
+    <script src="app/resources/accidentScenarioResource.js"></script>
+    <script src="app/resources/storeStateResource.js"></script>
+    <script src="app/resources/usersResource.js"></script>
+    <script src="app/resources/calculatorResource.js"></script>
+    <script src="app/common/directives/directives.js"></script>
+    <script src="app/common/directives/focusFirstError.js"></script>
+    <script src="app/common/filters/filters.js"></script>
+    <script src="app/common/filters/lowerCase.js"></script>
+    <script src="app/common/utilities/utilities.js"></script>
+    <script src="app/common/utilities/constants.js"></script>
+    <script src="app/common/utilities/calculatorFunctions.js"></script>
+    <!-- endbuild -->
+
+    <script>
+        window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+        ga('create', 'UA-67612360-3', 'auto');
+
+        // Replace the following lines with the plugins you want to use.
+        ga('require', 'eventTracker');
+        ga('require', 'outboundLinkTracker');
+        ga('require', 'urlChangeTracker');
+
+        ga('send', 'pageview');
+    </script>
+    <script async src="https://www.google-analytics.com/analytics.js"></script>
+    <script async src="bower_components/autotrack/autotrack.js"></script>
+
+</body>
+
+</html>

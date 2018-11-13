@@ -1,0 +1,45 @@
+{
+  "riskFactors":
+  [
+    {
+      "id": "1",
+      "name": "Road User"
+    },
+    {
+      "id": "1.1",
+      "name": "Speed choice"
+    },
+    {
+      "id": "1.2",
+      "name": "Influenced driving - alcohol"
+    },
+    {
+      "id": "1.3",
+      "name": "Influenced driving - drugs"
+    },
+    {
+      "id": "1.4",
+      "name": "Risk taking"
+    },
+    {
+      "id": "2",
+      "name": "Infrastructure"
+    },
+    {
+      "id": "2.1",
+      "name": "Infrastructure driving"
+    },
+    {
+      "id": "2.2",
+      "name": "Infrastructure taking"
+    },
+    {
+      "id": "3",
+      "name": "Vehicle"
+    },
+    {
+      "id": "3.1",
+      "name": "Vehicle taking"
+    }
+  ]
+}

@@ -1,0 +1,97 @@
+<div class="row breadcrumb">
+    <a ng-href="#/">Home</a>   <i class="fa fa-chevron-right" style="font-size: 11px;color: #888;font-weight: lighter;"></i>   Measures Search
+</div>
+
+<div id="measure-search-tpl" class="text-form">
+
+    <div class="row">
+        <div id="menu" class="list-group main-menu">
+            <ul>
+                <li class="list-group-item "><a ng-href="#/text-search"><img src="assets/images/SafetyCube-KeywordSearch-small-trans.jpg" border="0" class="img-responsive" style="width: 215px"></a></li>
+                <li class="list-group-item "><a ng-href="#/risk-factor-search"><img src="assets/images/SafetyCube-RiskFactors-small-trans.jpg" border="0" class="img-responsive" style="width: 215px"></a></li>
+                <li class="list-group-item "><a ng-href="#/measure-search"><img src="assets/images/SafetyCube-Measures-small.jpg" border="0" class="img-responsive" style="width: 215px"></a></li>
+                <li class="list-group-item "><a ng-href="#/road-user-group-search"><img src="assets/images/SafetyCube-RoadUserGroups-small-trans.jpg" border="0" class="img-responsive" style="width: 215px"></a></li>
+                <li class="list-group-item "><a ng-href="#/accident-scenario-search"><img src="assets/images/SafetyCube-AccCategories-small-trans.jpg" border="0" class="img-responsive" style="width: 215px"></a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row">
+        <form novalidate>
+
+            <div class="level-two-factor">
+                <div class="col-xs-12">
+                    <div class="col-xs-3 level-two-factor-column">
+                        <table class="table table-hover table-measures">
+                            <thead>
+                                <tr class="default">
+                                    <th>Behavior</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-if="measureSearch.measuresBehavior.length > 0" ng-repeat="beh in measureSearch.measuresBehavior track by $index" class="active">
+                                    <td><a ng-click="measureSearch.submitMeasureSearch(beh.id)">{{beh.level_value}}</a></td>
+                                </tr>
+                                <tr ng-if="measureSearch.measuresBehavior.length == 0" class="active">
+                                    <td>Not Applicable</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-xs-3 level-two-factor-column">
+                        <table class="table table-hover table-measures">
+                            <thead>
+                                <tr class="default">
+                                    <th>Infrastructure</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-if="measureSearch.measuresInfrastructure.length > 0" ng-repeat="inf in measureSearch.measuresInfrastructure track by $index" class="active">
+                                    <td><a ng-click="measureSearch.submitMeasureSearch(inf.id)">{{inf.level_value}}</a></td>
+                                </tr>
+                                <tr ng-if="measureSearch.measuresInfrastructure.length == 0" class="active">
+                                    <td>Not Applicable</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-xs-3 level-two-factor-column">
+                        <table class="table table-hover table-measures">
+                            <thead>
+                                <tr class="default">
+                                    <th>Vehicle</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-if="measureSearch.measuresVehicle.length > 0" ng-repeat="veh in measureSearch.measuresVehicle track by $index" class="active">
+                                    <td><a ng-click="measureSearch.submitMeasureSearch(veh.id)">{{veh.level_value}}</a></td>
+                                </tr>
+                                <tr ng-if="measureSearch.measuresVehicle.length == 0" class="active">
+                                    <td>Not Applicable</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-xs-3 level-two-factor-column">
+                        <table class="table table-hover table-measures">
+                            <thead>
+                            <tr class="default">
+                                <th>Post Impact Care</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-if="measureSearch.measuresPostImpactCare.length > 0" ng-repeat="pic in measureSearch.measuresPostImpactCare track by $index" class="active">
+                                <td><a ng-click="measureSearch.submitMeasureSearch(pic.id)">{{pic.level_value}}</a></td>
+                            </tr>
+                            <tr ng-if="measureSearch.measuresPostImpactCare.length == 0" class="active">
+                                <td>Not Applicable</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>

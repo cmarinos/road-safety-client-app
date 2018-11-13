@@ -1,0 +1,150 @@
+<div class="row breadcrumb">
+    <a ng-href="#/">Home</a>   <i class="fa fa-chevron-right" style="font-size: 11px;color: #888;font-weight: lighter;"></i>   Reference Results
+</div>
+
+<div class="container">
+
+    <div class="col-md-3">
+
+        <div class="filter form-group" ng-if="referenceResults.keyword.id">
+            <h4>Keyword</h4>
+            <div >
+                <label>
+                    {{referenceResults.keyword.value}} <a class="remove-keyword" ng-click="referenceResults.removeKeyword()"><i class="fa fa-times-circle-o" aria-hidden="true"></i></a>
+                </label>
+            </div>
+        </div>
+
+        <div class="filter form-group" ng-if="referenceResults.filtersData.specificRiskFactors.length > 0" ng-show="!referenceResults.preSelectedSpecificFactor">
+            <h4>{{referenceResults.specificFactorLabel}}</h4>
+            <div class="checkbox" ng-repeat="factor in referenceResults.filtersData.specificRiskFactors track by $index">
+                <label>
+                    <input type="checkbox"ng-model="referenceResults.selectedFilters.specificRiskFactors[factor.id]"
+                           ng-click="referenceResults.filterByCriteria()">
+                        {{factor.level_value}}
+                </label>
+            </div>
+        </div>
+
+        <div class="filter form-group" ng-if="referenceResults.filtersData.roadUserProfileModes.length > 0">
+            <h4>Road User Group</h4>
+            <div class="checkbox" ng-repeat="profileMode in referenceResults.filtersData.roadUserProfileModes track by $index">
+                <label>
+                    <input type="checkbox" ng-model="referenceResults.selectedFilters.roadUserProfileModes[profileMode]" 
+                        ng-click="referenceResults.filterByCriteria()">
+                    {{profileMode}}
+                </label>
+            </div>
+        </div>
+
+        <div class="filter form-group" ng-if="referenceResults.filtersData.roadNetworkProfileArea.length > 0">
+            <h4>Road Type</h4>
+            <div class="checkbox" ng-repeat="profileArea in referenceResults.filtersData.roadNetworkProfileArea track by $index">
+                <label>
+                    <input type="checkbox" ng-model="referenceResults.selectedFilters.roadNetworkProfileArea[profileArea]" 
+                        ng-click="referenceResults.filterByCriteria()">
+                    {{profileArea}}
+                </label>
+            </div>
+        </div>
+
+        <div class="filter form-group" ng-if="referenceResults.filtersData.countries.length > 0">
+            <h4>Countries</h4>
+            <div class="checkbox" ng-repeat="country in referenceResults.filtersData.countries track by $index">
+                <label>
+                    <input type="checkbox" ng-model="referenceResults.selectedFilters.countries[country]"
+                           ng-click="referenceResults.filterByCriteria()">
+                    {{country}}
+                </label>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-md-9">
+
+        <div class="row reference-results-heading">
+            <div class="col-xs-9">
+                <h4>Search Results</h4>
+            </div>
+            <div class="col-xs-3 references-intro-label">
+                Introductory Video: <a href="https://www.youtube.com/watch?v=g6rc7YPmGkM" target="_blank" class="play-icon"><i class="fa fa-youtube-play"></i></a>
+            </div>
+        </div>
+        <div class="row reference-results-heading">
+            <div class="col-xs-12">
+                The following information <span ng-show="referenceResults.references.length>0">on "<strong>{{referenceResults.references[0].level_value_template}}</strong>"</span> fulfill your search criteria. Refine your search, view the SafetyCube Synopses, choose a study to obtain more detailed information,
+                or go to the respective Road Safety Measures.
+            </div>
+        </div>
+        <div ng-if="referenceResults.synopsis.length > 0" class="row reference-results-heading" ng-repeat="synop in referenceResults.synopsis">
+            <div class="synopses-img"><img src="assets/images/synopses/{{synop.title}}.jpg" border="0" class="img-responsive"></div>
+            <div class="synopses-data">
+                <p>
+                    <span style="font-size: 14px;font-weight: 600;">{{synop.title}}</span>: <i class="fa fa-circle  {{referenceResults.getColorCodeClass(synop)}}"></i><i>{{synop.colorCode}}</i>
+                    - <a href="assets/data/pdf/synopses/{{synop.name}}" target="_blank" style="color: #a22700;font-size:1.5em;"><i class="fa fa-file-pdf-o"></i></a>
+                </p>
+                <p ng-if="synop.motivation">{{synop.motivation}}</p>
+            </div>
+        </div>
+        <div class="well well-lg cbaexamples-well" ng-if="referenceResults.cbaexamples.length > 0">
+            <div class="row">
+                <h6>Cost Benefit Analysis</h6>
+                <p ng-repeat="cba in referenceResults.cbaexamples">
+                    {{cba.cbaTaxonomy}}: <a href="assets/data/pdf/cba/{{cba.cbaOriginalName}}" target="_blank" style="color: #a22700;font-size:1.5em;"><i class="fa fa-file-pdf-o"></i></a>
+                </p>
+            </div>
+        </div>
+        <div class="well well-lg">
+            <div class="row">
+                <div class="col-md-3">
+                    <button class="btn btn-primary btn-large ng-binding" ng-click="referenceResults.goToRelated()" ng-disabled="referenceResults.disableRelated" disabled="disabled">
+                        {{referenceResults.relatedBtnLabel}}
+                    </button>
+                </div>
+
+                <div class="col-md-9 ng-binding">
+                    <i class="fa fa-question-circle" aria-hidden="true"></i> {{referenceResults.relatedBtnInfo}}
+                </div>
+            </div>
+        </div>
+        <hr/>
+
+        <div class="row number-references-block">
+            Number of studies: {{referenceResults.references.length}}
+        </div>
+
+        <div class="row reference-results" ng-if="referenceResults.references.length > 0">
+            <table class="table table-active">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Source</th>
+                        <th>Year</th>
+                        <th>Design</th>
+                        <th>Countries</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="ref in referenceResults.references">
+                        <td>{{ref.id}}</td>
+                        <td><a ng-click="referenceResults.showItem(ref.id)">{{ref.title}}</a></td>
+                        <td>{{ref.source}}</td>
+                        <td>{{ref.year}}</td>
+                        <td>{{ref.design}}</td>
+                        <td>
+                            <span ng-if="ref.countries.length == 1" ng-repeat="c in ref.countries track by $index">{{c}}</span>
+                            <span ng-if="ref.countries.length > 1">Various</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="col-md-9 pull-right" ng-if="referenceResults.references.length == 0">
+        There are no results for this query.
+    </div>
+
+</div>
